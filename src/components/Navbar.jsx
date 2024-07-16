@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { items } from './Data'
+import { BsFillCartCheckFill } from 'react-icons/bs';
 
 export const Navbar = ({setData, cart}) => {
 
+  // console.log(useLocation)
+
+  const location = useLocation()
   const navigate = useNavigate()
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -43,7 +47,7 @@ export const Navbar = ({setData, cart}) => {
 
             <Link to={"/cart"} className="cart">
             <button type="button" className="btn btn-primary position-relative">
-            Cart
+            <BsFillCartCheckFill />
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {cart.length}
               <span className="visually-hidden">unread messages</span>
@@ -51,7 +55,11 @@ export const Navbar = ({setData, cart}) => {
           </button>
             </Link>
         </div>
-        <div className="nav-bar-wrapper">
+
+        {
+          location.pathname === "/" && (
+
+            <div className="nav-bar-wrapper">
             <div className="items">Filter by {"->"} </div>
             <div onClick={()=>setData(items)} className="items">No Filter</div>
             <div onClick={()=>filterByCategory("mobiles")} className="items">Mobiles</div>
@@ -62,6 +70,9 @@ export const Navbar = ({setData, cart}) => {
             <div onClick={()=>filterByPrice(69999)} className="items">{">="}69999</div>
             <div onClick={()=>filterByPrice(89999)} className="items">{">="}89999</div>
         </div>
+          )
+        }
+
     </header>
     </>
   )
